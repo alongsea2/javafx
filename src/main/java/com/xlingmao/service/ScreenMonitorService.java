@@ -15,12 +15,13 @@ import com.xlingmao.asserts.FBImage;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import org.apache.log4j.Logger;
 
 public class ScreenMonitorService extends ScheduledService{
@@ -73,22 +74,34 @@ public class ScreenMonitorService extends ScheduledService{
 								imageViewDto.setDevice(re);
 								//存放包裹imageView的实例
 								anchorPane.getStyleClass().add("device-img-view");
-								anchorPane.getChildren().add(imageView);
+								anchorPane.setPrefHeight(imageView.getFitHeight() + 20);
+								//存放小label
+								FXMLLoader fxmlLoader = new FXMLLoader();
+								fxmlLoader.setLocation(ScreenMonitorService.class.getResource("/view/initView/DeviceSmallButtonLayout.fxml"));
+								HBox smallLabel = fxmlLoader.load();
+								smallLabel.setLayoutY(imageView.getFitHeight());
+								anchorPane.getChildren().addAll(imageView,smallLabel);
+
+								final boolean[] testFlag = {true};
 								imageViewDto.setAnchorPane(anchorPane);
 								imageMap.put(re.getName(),imageViewDto);
 								//设置点击事件 TODO: 2016/11/7  封装
 								imageView.setOnMousePressed(e -> {
-									Point point = new Point((int) e.getX(), (int) e.getY());
-									Point realPoint = ClickHelpUtil.getRealPoint(point);
-									try {
-										ClickHelpUtil.touch(re,realPoint.getX(),realPoint.getY());
-										logger.info("x : " + realPoint.getX() + ", y : " + realPoint.getY());
-									} catch (Exception e1) {
-										logger.error("===== touch fail");
+									System.out.println(testFlag[0]);
+									if(testFlag[0]){
+										Point point = new Point((int) e.getX(), (int) e.getY());
+										Point realPoint = ClickHelpUtil.getRealPoint(point);
+										try {
+											ClickHelpUtil.touch(re,realPoint.getX(),realPoint.getY());
+											logger.info("x : " + realPoint.getX() + ", y : " + realPoint.getY());
+										} catch (Exception e1) {
+											logger.error("===== touch fail");
+										}
 									}
 								});
 
                                 imageView.setOnDragDetected(e->{
+									testFlag[0] = false;
                                     Point point = new Point((int) e.getX(), (int) e.getY());
                                     Point realPoint = ClickHelpUtil.getRealPoint(point);
                                     tempX = realPoint.getX();
@@ -108,7 +121,8 @@ public class ScreenMonitorService extends ScheduledService{
                                         imageView.setOnMouseClicked(null);
                                         re.executeShellCommand("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200" , new CommandOutputCapture());
                                         System.out.println("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200");
-                                    }catch (Exception ex){
+                                    	testFlag[0] = true;
+									}catch (Exception ex){
                                         System.out.println(ex);
                                     }
                                 });
