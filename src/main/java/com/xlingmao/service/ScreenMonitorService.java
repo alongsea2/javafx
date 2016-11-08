@@ -1,6 +1,7 @@
 package com.xlingmao.service;
 
 import java.awt.Point;
+import java.sql.Time;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +19,6 @@ import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -28,16 +28,14 @@ import org.apache.log4j.Logger;
 
 public class ScreenMonitorService extends ScheduledService{
 
-    private static final Logger logger = Logger.getLogger(ScreenMonitorService.class);
+	private static final Logger logger = Logger.getLogger(ScreenMonitorService.class);
 	private static ConcurrentHashMap<String,ImageDeviceDto> imageMap = new ConcurrentHashMap<>();
 	private FlowPane flowPane;
-    private int screenWidth = PropertiesUtil.getValueForInt("device.screen.width");
-    private int screenHeight = PropertiesUtil.getValueForInt("device.screen.height");
-    private double screenZoom = Double.parseDouble(PropertiesUtil.getValue("device.screen.zoom"));
-    private static double tempX;
-    private static double tempY;
-    private static double releaseX;
-    private static double releaseY;
+	private int screenWidth = PropertiesUtil.getValueForInt("device.screen.width");
+	private int screenHeight = PropertiesUtil.getValueForInt("device.screen.height");
+	private double screenZoom = Double.parseDouble(PropertiesUtil.getValue("device.screen.zoom"));
+	private static double tempX;
+	private static double tempY;
 
 	public void setFlowPane(FlowPane flowPane) {
 		this.flowPane = flowPane;
@@ -83,75 +81,52 @@ public class ScreenMonitorService extends ScheduledService{
 								HBox smallLabel = fxmlLoader.load();
 								smallLabel.setLayoutY(imageView.getFitHeight());
 								anchorPane.getChildren().addAll(imageView,smallLabel);
-
-								final boolean[] testFlag = {true,true,true};
 								imageViewDto.setAnchorPane(anchorPane);
 								imageMap.put(re.getName(),imageViewDto);
+								boolean[] eventFlag = {false};//[0]-->是否在drag
 
 								imageView.setOnDragDetected(e->{
+									eventFlag[0] = true;
 									Point point = new Point((int) e.getX(), (int) e.getY());
 									Point realPoint = ClickHelpUtil.getRealPoint(point);
 									tempX = realPoint.getX();
 									tempY = realPoint.getY();
-									System.out.println("dragged detected " + tempX + " " + tempY);
-									imageView.setOnMouseMoved(f->{
-										Point point2 = new Point((int) f.getX(), (int) f.getY());
-										Point realPoint2 = ClickHelpUtil.getRealPoint(point2);
-										releaseX = realPoint2.getX();
-										releaseY = realPoint2.getY();
-										System.out.println("dragged move " + releaseX + " " + releaseY);
-										imageView.setOnMouseMoved(null);
-									});
-								});
-								imageView.setOnMouseReleased(e->{
-                                        try {
-                                            if(tempX != 0 && tempY !=0){
-                                                re.executeShellCommand("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200" , new CommandOutputCapture());
-                                                System.out.println("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200");
-                                                testFlag[0] = false;
-                                                new Timer().schedule(new TimerTask() {
-                                                    @Override
-                                                    public void run() {
-                                                        testFlag[0] = true;
-                                                    }
-                                                },3);
-                                            }
-                                        }catch (Exception ex){
-                                            System.out.println(ex);
-                                        }
+									logger.info("dragged detected " + tempX + " " + tempY);
+									e.consume();
 								});
 
-								//设置点击事件 TODO: 2016/11/7  封装
-								imageView.setOnMouseClicked(e -> {
-                                    tempX = 0;
-                                    tempY = 0;
-                                    if(testFlag[0]) {
-
-                                        Point point = new Point((int) e.getX(), (int) e.getY());
-                                        Point realPoint = ClickHelpUtil.getRealPoint(point);
-                                        try {
-                                            ClickHelpUtil.touch(re, realPoint.getX(), realPoint.getY());
-                                            logger.info("x : " + realPoint.getX() + ", y : " + realPoint.getY());
-                                            testFlag[2] = false;
-                                        } catch (Exception e1) {
-                                            logger.error("===== touch fail");
-                                        }
-                                    }
+								//设置点击事件
+								//当拖曳的时候释放为拖曳
+								//非拖曳状态为点击事件
+								imageView.setOnMouseReleased(e -> {
+									if(!eventFlag[0]){
+										Point point = new Point((int) e.getX(), (int) e.getY());
+										Point realPoint = ClickHelpUtil.getRealPoint(point);
+										try {
+											ClickHelpUtil.touch(re,realPoint.getX(),realPoint.getY());
+											logger.info("x : " + realPoint.getX() + ", y : " + realPoint.getY());
+										} catch (Exception e1) {
+											logger.error("===== touch fail");
+										}
+										e.consume();
+									}else{
+										try {
+											Point point1 = new Point((int) e.getX(), (int) e.getY());
+											Point realPoint1 = ClickHelpUtil.getRealPoint(point1);
+											re.executeShellCommand("input swipe " + tempX + " " + tempY + " " + realPoint1.getX() + " " + realPoint1.getY() + " 200" , new CommandOutputCapture());
+											logger.info("input swipe " + tempX + " " + tempY + " " + realPoint1.getX() + " " + realPoint1.getY() + " 200");
+											e.consume();
+											new Timer().schedule(new TimerTask() {
+												@Override
+												public void run() {
+													eventFlag[0] = false;
+												}
+											},500);
+										}catch (Exception ex){
+											ex.printStackTrace();
+										}
+									}
 								});
-
-
-
-
-                                /*imageView.setOnMouseReleased(e->{
-                                    try {
-                                        Point point = new Point((int) e.getX(), (int) e.getY());
-                                        Point realPoint = ClickHelpUtil.getRealPoint(point);
-                                        re.executeShellCommand("input swipe " + tempX +" " + tempY + " " + realPoint.getX() + " " + realPoint.getY() + " 200",new CommandOutputCapture());
-                                        logger.info("release x : " + realPoint.getX() + ", y : " + realPoint.getY() + "tempxy  " +tempX + tempY);
-                                    } catch (Exception e1) {
-                                        logger.error("===== touch fail");
-                                    }
-                                });*/
 
 
 
@@ -172,13 +147,13 @@ public class ScreenMonitorService extends ScheduledService{
 		};
 	}
 
-    public static ConcurrentHashMap<String, ImageDeviceDto> getImageMap() {
-        return imageMap;
-    }
+	public static ConcurrentHashMap<String, ImageDeviceDto> getImageMap() {
+		return imageMap;
+	}
 
-    public static void setImageMap(ConcurrentHashMap<String, ImageDeviceDto> imageMap) {
-        ScreenMonitorService.imageMap = imageMap;
-    }
+	public static void setImageMap(ConcurrentHashMap<String, ImageDeviceDto> imageMap) {
+		ScreenMonitorService.imageMap = imageMap;
+	}
 
 	private void removeOfflineDevice(ConcurrentHashMap<String,ImageDeviceDto> imageMap,List<IDevice> iDevices){
 		imageMap.keySet().stream().filter(key -> !iDevices.contains(imageMap.get(key).getDevice())).forEach(key -> {
