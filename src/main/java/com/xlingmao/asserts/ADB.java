@@ -84,9 +84,10 @@ public class ADB {
 		if (adbLocation == null) {
 			adbLocation = System.getenv("ANDROID_HOME");
 			// Here, adbLocation may be android sdk directory
-			if (adbLocation != null) {
+			//if (adbLocation != null) {
+                adbLocation = "/Users/alongsea2/library/Android/sdk";
 				adbLocation += File.separator + "platform-tools";
-			}
+			//}
 		}
 
 		// for debugging (follwing line is a example)

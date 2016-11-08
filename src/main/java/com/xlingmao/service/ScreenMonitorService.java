@@ -2,6 +2,8 @@ package com.xlingmao.service;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.android.chimpchat.adb.CommandOutputCapture;
@@ -82,50 +84,62 @@ public class ScreenMonitorService extends ScheduledService{
 								smallLabel.setLayoutY(imageView.getFitHeight());
 								anchorPane.getChildren().addAll(imageView,smallLabel);
 
-								final boolean[] testFlag = {true};
+								final boolean[] testFlag = {true,true,true};
 								imageViewDto.setAnchorPane(anchorPane);
 								imageMap.put(re.getName(),imageViewDto);
-								//设置点击事件 TODO: 2016/11/7  封装
-								imageView.setOnMousePressed(e -> {
-									System.out.println(testFlag[0]);
-									if(testFlag[0]){
-										Point point = new Point((int) e.getX(), (int) e.getY());
-										Point realPoint = ClickHelpUtil.getRealPoint(point);
-										try {
-											ClickHelpUtil.touch(re,realPoint.getX(),realPoint.getY());
-											logger.info("x : " + realPoint.getX() + ", y : " + realPoint.getY());
-										} catch (Exception e1) {
-											logger.error("===== touch fail");
-										}
-									}
+
+								imageView.setOnDragDetected(e->{
+									Point point = new Point((int) e.getX(), (int) e.getY());
+									Point realPoint = ClickHelpUtil.getRealPoint(point);
+									tempX = realPoint.getX();
+									tempY = realPoint.getY();
+									System.out.println("dragged detected " + tempX + " " + tempY);
+									imageView.setOnMouseMoved(f->{
+										Point point2 = new Point((int) f.getX(), (int) f.getY());
+										Point realPoint2 = ClickHelpUtil.getRealPoint(point2);
+										releaseX = realPoint2.getX();
+										releaseY = realPoint2.getY();
+										System.out.println("dragged move " + releaseX + " " + releaseY);
+										imageView.setOnMouseMoved(null);
+									});
+								});
+								imageView.setOnMouseReleased(e->{
+                                        try {
+                                            if(tempX != 0 && tempY !=0){
+                                                re.executeShellCommand("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200" , new CommandOutputCapture());
+                                                System.out.println("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200");
+                                                testFlag[0] = false;
+                                                new Timer().schedule(new TimerTask() {
+                                                    @Override
+                                                    public void run() {
+                                                        testFlag[0] = true;
+                                                    }
+                                                },3);
+                                            }
+                                        }catch (Exception ex){
+                                            System.out.println(ex);
+                                        }
 								});
 
-                                imageView.setOnDragDetected(e->{
-									testFlag[0] = false;
-                                    Point point = new Point((int) e.getX(), (int) e.getY());
-                                    Point realPoint = ClickHelpUtil.getRealPoint(point);
-                                    tempX = realPoint.getX();
-                                    tempY = realPoint.getY();
-                                    System.out.println("dragged detected " + tempX + " " + tempY);
-                                    imageView.setOnMouseMoved(f->{
-                                        Point point2 = new Point((int) f.getX(), (int) f.getY());
-                                        Point realPoint2 = ClickHelpUtil.getRealPoint(point2);
-                                        releaseX = realPoint2.getX();
-                                        releaseY = realPoint2.getY();
-                                        System.out.println("dragged move " + releaseX + " " + releaseY);
-                                        imageView.setOnMouseMoved(null);
-                                    });
-                                });
-                                imageView.setOnMouseReleased(e->{
-                                    try {
-                                        imageView.setOnMouseClicked(null);
-                                        re.executeShellCommand("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200" , new CommandOutputCapture());
-                                        System.out.println("input swipe " + tempX + " " + tempY + " " + releaseX + " " + releaseY + " 200");
-                                    	testFlag[0] = true;
-									}catch (Exception ex){
-                                        System.out.println(ex);
+								//设置点击事件 TODO: 2016/11/7  封装
+								imageView.setOnMouseClicked(e -> {
+                                    tempX = 0;
+                                    tempY = 0;
+                                    if(testFlag[0]) {
+
+                                        Point point = new Point((int) e.getX(), (int) e.getY());
+                                        Point realPoint = ClickHelpUtil.getRealPoint(point);
+                                        try {
+                                            ClickHelpUtil.touch(re, realPoint.getX(), realPoint.getY());
+                                            logger.info("x : " + realPoint.getX() + ", y : " + realPoint.getY());
+                                            testFlag[2] = false;
+                                        } catch (Exception e1) {
+                                            logger.error("===== touch fail");
+                                        }
                                     }
-                                });
+								});
+
+
 
 
                                 /*imageView.setOnMouseReleased(e->{
