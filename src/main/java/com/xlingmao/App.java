@@ -1,17 +1,17 @@
 package com.xlingmao;
 
 
+import com.xlingmao.common.LayoutId;
 import com.xlingmao.service.ScreenMonitorService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.log4j.Logger;
-import javafx.scene.Parent;
 import java.io.IOException;
 
 /**
@@ -22,12 +22,8 @@ public class App extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private FlowPane flowPane;
-
-
+    private Label label;
     private static final Logger logger = Logger.getLogger(App.class);
-
-    private static final String LAYOUT_ROOTLAYOUT= "/view/initView/RootLayout.fxml";
-
     public static void main(String args[]){
         launch(args);
     }
@@ -37,7 +33,13 @@ public class App extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("猫巢微信运营系统");
         initRootLayout();
+        initRightAccordionView();
         initScrollPaneView();
+        ScreenMonitorService smService = new ScreenMonitorService();
+        smService.setFlowPane(flowPane);
+        smService.setAccordion(label);
+        smService.setPeriod(Duration.seconds(2));
+        smService.start();
     }
 
     private Node findById(String id, Pane layout){
@@ -47,7 +49,6 @@ public class App extends Application {
             logger.error(e);
         }
         return null;
-
     }
 
     /**
@@ -69,18 +70,23 @@ public class App extends Application {
         }
     }
 
-    /**
-     * Shows the person overview inside the root layout.
-     */
+
     private void initScrollPaneView() {
-
         flowPane = (FlowPane) findById("#flowPane",rootLayout);
-
-        ScreenMonitorService smService = new ScreenMonitorService();
-        smService.setFlowPane(flowPane);
-        smService.setPeriod(Duration.seconds(2));
-        smService.start();
     }
+
+    private void initRightAccordionView(){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(App.class.getResource("/view/initView/RightAccordionLayout.fxml"));
+        try {
+            AnchorPane anchorPane = loader.load();
+            label = (Label) anchorPane.lookup("#" + LayoutId.DEVICE_NUM_LABEL);
+            rootLayout.setRight(anchorPane);
+        } catch (IOException e) {
+            logger.error("=====" + e);
+        }
+    }
+
 
     /**
      * Returns the main stage.

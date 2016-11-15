@@ -84,10 +84,9 @@ public class ADB {
 		if (adbLocation == null) {
 			adbLocation = System.getenv("ANDROID_HOME");
 			// Here, adbLocation may be android sdk directory
-			//if (adbLocation != null) {
-                adbLocation = "/Users/alongsea2/library/Android/sdk";
+			if (adbLocation != null) {
 				adbLocation += File.separator + "platform-tools";
-			//}
+			}
 		}
 
 		// for debugging (follwing line is a example)
@@ -137,7 +136,11 @@ public class ADB {
 
 	public List<IDevice> getDevices() {
         IDevice[] devices = mAndroidDebugBridge.getDevices();
-		return devices != null && devices.length > 0 ? Arrays.asList(devices) : null;
+        List<IDevice> iDevicesList = new ArrayList<>();
+        for (IDevice device : devices) {
+            iDevicesList.add(device);
+        }
+        return devices.length > 0 ? iDevicesList : null;
 	}
 
     public FBImage getDeviceImage(IDevice mDevice) throws IOException {
@@ -146,7 +149,6 @@ public class ADB {
         FBImage fbImage = null;
         RawImage tmpRawImage = null;
         RawImage rawImage = null;
-
         if (success) {
             try {
                 tmpRawImage = mDevice.getScreenshot();

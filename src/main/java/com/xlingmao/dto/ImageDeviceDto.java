@@ -12,6 +12,15 @@ public class ImageDeviceDto {
     private int imageViewIndex;
     private AnchorPane anchorPane;
     private IDevice device;
+    private boolean isOffLine = false;
+
+    public boolean isOffLine() {
+        return isOffLine;
+    }
+
+    public void setOffLine(boolean offLine) {
+        isOffLine = offLine;
+    }
 
     public IDevice getDevice() {
         return device;
