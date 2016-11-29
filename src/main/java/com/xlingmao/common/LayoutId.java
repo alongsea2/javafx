@@ -21,4 +21,18 @@ public interface LayoutId {
     String DEVICE_NUM_LABEL = "allDevices";
 
     String FIND_DEVICE_BUTTON = "findDevice";
+
+    String OPEN_WECHAT = "openWechat";
+
+    String OPEN_QQ = "openQQ";
+
+    String CLOSE_SCREEN = "closeScreen";
+
+    String WAKE_SCREEN = "wakeScreen";
+
+    String REBOOT = "reboot";
+
+    String SPEED_UP = "speedUp";
+
+    String UPDATE_AUTO_JAR = "updateAutoJar";
 }

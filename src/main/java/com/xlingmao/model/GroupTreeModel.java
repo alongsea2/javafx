@@ -11,10 +11,26 @@ import javafx.beans.property.StringProperty;
 public class GroupTreeModel {
     private final IntegerProperty id;
     private final StringProperty deviceName;
+    private final IntegerProperty groupId;
+    private final StringProperty mappingName;
 
-    public GroupTreeModel(int id, String deviceName) {
+    public String getMappingName() {
+        return mappingName.get();
+    }
+
+    public StringProperty mappingNameProperty() {
+        return mappingName;
+    }
+
+    public void setMappingName(String mappingName) {
+        this.mappingName.set(mappingName);
+    }
+
+    public GroupTreeModel(int id, String deviceName, String mappingName, int groupId) {
         this.id = new SimpleIntegerProperty(id);
         this.deviceName = new SimpleStringProperty(deviceName);
+        this.groupId = new SimpleIntegerProperty(groupId);
+        this.mappingName = new SimpleStringProperty(mappingName);
     }
 
     public int getId() {
@@ -40,4 +56,18 @@ public class GroupTreeModel {
     public void setDeviceName(String deviceName) {
         this.deviceName.set(deviceName);
     }
+
+    public int getGroupId() {
+        return groupId.get();
+    }
+
+    public IntegerProperty groupIdProperty() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId.set(groupId);
+    }
+
+
 }

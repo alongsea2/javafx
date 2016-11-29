@@ -48,6 +48,7 @@ public class ClickHelpUtil {
     public static void backHome(IDevice iDevice){
         try {
             iDevice.executeShellCommand(shellCommand + "keyevent 3",new CommandOutputCapture());
+            logger.info("back home command");
         } catch (Exception e) {
             logger.error("===== " + e);
         }

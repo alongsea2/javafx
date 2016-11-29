@@ -35,11 +35,12 @@ public class App extends Application {
         initRootLayout();
         initRightAccordionView();
         initScrollPaneView();
-        ScreenMonitorService smService = new ScreenMonitorService();
-        smService.setFlowPane(flowPane);
-        smService.setAccordion(label);
-        smService.setPeriod(Duration.seconds(2));
+
+        //检测线程
+        ScreenMonitorService smService = new ScreenMonitorService(flowPane,label);
+        smService.setPeriod(Duration.millis(1000));
         smService.start();
+
     }
 
     private Node findById(String id, Pane layout){
@@ -77,7 +78,7 @@ public class App extends Application {
 
     private void initRightAccordionView(){
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(App.class.getResource("/view/initView/RightAccordionLayout.fxml"));
+        loader.setLocation(App.class.getResource("/view/initView/RightConsoleLayout.fxml"));
         try {
             AnchorPane anchorPane = loader.load();
             label = (Label) anchorPane.lookup("#" + LayoutId.DEVICE_NUM_LABEL);

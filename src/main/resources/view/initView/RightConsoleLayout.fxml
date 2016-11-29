@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="376.0" prefWidth="201.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xlingmao.controller.RightConsoleController">
+   <children>
+      <Label fx:id="allDevices" alignment="CENTER" prefHeight="20.0" prefWidth="201.0" style="-fx-background-color: #0da6e7;" textAlignment="CENTER" textFill="WHITE" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="376.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <content>
+            <AnchorPane prefHeight="360.0" prefWidth="202.0">
+               <children>
+                  <VBox prefHeight="130.0" prefWidth="201.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button fx:id="connectDevices" mnemonicParsing="false" onMouseClicked="#connectAll" prefHeight="33.0" prefWidth="202.0" text="显示所有设备" />
+                        <Button fx:id="disconnectDevices" mnemonicParsing="false" onMouseClicked="#disconnectAll" prefHeight="33.0" prefWidth="202.0" text="断开所有设备" />
+                        <Button fx:id="bulkOperate" mnemonicParsing="false" onMouseClicked="#bulkOperateShow" prefHeight="33.0" prefWidth="202.0" text="执行批量操作" />
+                        <Button mnemonicParsing="false" onMouseClicked="#wechatMangerShow" prefHeight="33.0" prefWidth="202.0" text="微信营销管理" />
+                        <HBox prefHeight="33.0" prefWidth="200.0">
+                           <children>
+                              <CheckBox fx:id="allControl" mnemonicParsing="false" onMouseClicked="#controlAll" prefHeight="34.0" prefWidth="101.0" text="同屏操作" />
+                              <!--<CheckBox mnemonicParsing="false" prefHeight="34.0" prefWidth="101.0" text="预方法" />-->
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Accordion fx:id="groupTree" layoutY="131.0" prefHeight="210.0" prefWidth="201.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="131.0">
+                    <panes>
+
+                    </panes>
+                  </Accordion>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

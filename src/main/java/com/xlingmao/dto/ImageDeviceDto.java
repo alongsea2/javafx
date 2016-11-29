@@ -4,15 +4,33 @@ import com.android.ddmlib.IDevice;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.net.Socket;
+
 /**
  * Created by dell on 2016/11/3.
  */
 public class ImageDeviceDto {
     private ImageView imageView;
-    private int imageViewIndex;
-    private AnchorPane anchorPane;
     private IDevice device;
-    private boolean isOffLine = false;
+    private Socket socket;
+    private boolean isOffLine = true;
+    private int port;
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
 
     public boolean isOffLine() {
         return isOffLine;
@@ -30,13 +48,6 @@ public class ImageDeviceDto {
         this.device = iDevice;
     }
 
-    public AnchorPane getAnchorPane() {
-        return anchorPane;
-    }
-
-    public void setAnchorPane(AnchorPane anchorPane) {
-        this.anchorPane = anchorPane;
-    }
 
     public ImageView getImageView() {
         return imageView;
@@ -46,11 +57,4 @@ public class ImageDeviceDto {
         this.imageView = imageView;
     }
 
-    public int getImageViewIndex() {
-        return imageViewIndex;
-    }
-
-    public void setImageViewIndex(int imageViewIndex) {
-        this.imageViewIndex = imageViewIndex;
-    }
 }

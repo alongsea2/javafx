@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="670.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xlingmao.controller.AcceptRequestViewController">
+   <children>
+      <SplitPane dividerPositions="0.5" layoutX="379.0" layoutY="198.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="21.0" layoutY="14.0" text="自动接受新朋友添加请求" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox layoutX="33.0" layoutY="54.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0">
+                     <children>
+                        <Label layoutX="33.0" layoutY="65.0" text="每次间隔">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="UpSleepTimeStart" layoutX="87.0" layoutY="54.0" prefHeight="23.0" prefWidth="35.0" text="2" />
+                        <Label layoutX="140.0" layoutY="65.0" prefHeight="15.0" prefWidth="15.0" text="到">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="UpSleepTimeEnd" layoutX="171.0" layoutY="66.0" prefHeight="23.0" prefWidth="35.0" text="5" />
+                        <Label layoutX="223.0" layoutY="65.0" text="秒      每次点击数：">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="clickTimes" layoutX="263.0" layoutY="61.0" prefHeight="23.0" prefWidth="35.0" text="2" />
+                        <RadioButton fx:id="fromUpToLow" layoutX="350.0" layoutY="69.0" mnemonicParsing="false" selected="true" text="从上往下开始">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="numberGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton layoutX="456.0" layoutY="58.0" mnemonicParsing="false" text="从下往上开始" toggleGroup="$numberGroup">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+                  <CheckBox fx:id="upAutoAddFriends" layoutX="14.0" layoutY="120.0" mnemonicParsing="false" selected="true" text="好友请求已过期，请主动添加对方" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <Button layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#handleAutoAccept" prefHeight="23.0" prefWidth="502.0" text="添加到执行任务列表" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="160.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="30.0" text="自动同意附近人添加请求" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox layoutX="28.0" layoutY="48.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0">
+                     <children>
+                        <Label layoutX="28.0" layoutY="52.0" text="每次间隔">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="LowSleepTimeStart" layoutX="74.0" layoutY="48.0" prefHeight="23.0" prefWidth="35.0" text="2" />
+                        <Label layoutX="153.0" layoutY="52.0" text="到">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="LowSleepTimeEnd" layoutX="208.0" layoutY="56.0" prefHeight="23.0" prefWidth="35.0" text="5" />
+                        <Label layoutX="299.0" layoutY="60.0" text="秒">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <CheckBox fx:id="lowAutoAddFriends" layoutX="20.0" layoutY="105.0" mnemonicParsing="false" selected="true" text="好友请求已过期，请主动添加对方" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <Button layoutX="10.0" layoutY="154.0" mnemonicParsing="false" onAction="#handleAutoAgree" prefHeight="23.0" prefWidth="495.0" text="添加到执行任务列表" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="160.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

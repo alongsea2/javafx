@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="670.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xlingmao.controller.SayHelloViewController">
+   <children>
+   	  <SplitPane layoutX="434.0" layoutY="292.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+	      <items>
+          	<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               	<children>
+			      <Text layoutX="35.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="操作方式：" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+			         <font>
+			            <Font size="14.0" />
+			         </font>
+			      </Text>
+			      <HBox layoutX="25.0" layoutY="45.0" spacing="5.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="45.0">
+			         <children>
+			            <RadioButton layoutX="89.0" layoutY="45.0" mnemonicParsing="false" text="全部">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="operationGroup" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton mnemonicParsing="false" text="加为好友" toggleGroup="$operationGroup" />
+			            <RadioButton layoutX="197.0" layoutY="53.0" mnemonicParsing="false" selected="true" text="打招呼" toggleGroup="$operationGroup" />
+			         </children>
+			      </HBox>
+			      <Label layoutX="-1.0" layoutY="103.0" text="性别选择：" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="100.0">
+			         <font>
+			            <Font size="14.0" />
+			         </font>
+			      </Label>
+			      <HBox layoutX="25.0" layoutY="136.0" spacing="5.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="135.0">
+			         <children>
+			            <RadioButton fx:id="allSex" layoutX="89.0" layoutY="45.0" mnemonicParsing="false" selected="true" text="全部">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sexGroup" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="man" mnemonicParsing="false" text="男" toggleGroup="$sexGroup" />
+			            <RadioButton fx:id="female" layoutX="197.0" layoutY="53.0" mnemonicParsing="false" text="女" toggleGroup="$sexGroup" />
+			         </children>
+			      </HBox>
+			      <Label layoutX="14.0" layoutY="201.0" text="性别选择：" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="180.0">
+			         <font>
+			            <Font size="14.0" />
+			         </font>
+			      </Label>
+			      <HBox layoutX="25.0" layoutY="220.0" spacing="5.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="220.0">
+			         <children>
+			            <Label layoutX="25.0" layoutY="224.0" text="每次给">
+			               <font>
+			                  <Font name="System Bold" size="12.0" />
+			               </font>
+			            </Label>
+			            <TextField fx:id="peopleNum" layoutX="66.0" layoutY="220.0" prefHeight="23.0" prefWidth="45.0" text="10" />
+			            <Label layoutX="131.0" layoutY="224.0" text="人打招呼">
+			               <font>
+			                  <Font name="System Bold" size="12.0" />
+			               </font>
+			            </Label>
+			         </children>
+			      </HBox>
+			      <HBox layoutX="25.0" layoutY="254.0" prefHeight="23.0" prefWidth="210.0" spacing="5.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="255.0">
+			         <children>
+			            <Label layoutX="25.0" layoutY="224.0" text="每次间隔">
+			               <font>
+			                  <Font name="System Bold" size="12.0" />
+			               </font>
+			            </Label>
+			            <TextField fx:id="sleepTimeStart" layoutX="66.0" layoutY="220.0" prefHeight="23.0" prefWidth="45.0" text="2" />
+			            <Label layoutX="131.0" layoutY="224.0" text="到">
+			               <font>
+			                  <Font name="System Bold" size="12.0" />
+			               </font>
+			            </Label>
+			            <TextField fx:id="sleepTimeEnd" prefHeight="23.0" prefWidth="45.0" text="5" />
+			            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="秒">
+			               <font>
+			                  <Font name="System Bold" size="12.0" />
+			               </font>
+			            </Text>
+			         </children>
+			      </HBox>
+			      <HBox layoutX="14.0" layoutY="314.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="315.0">
+			         <children>
+			            <Label layoutX="14.0" layoutY="316.0" text="打招呼用语：（如果有多条，每个手机随机取一条）">
+			               <font>
+			                  <Font size="14.0" />
+			               </font>
+			            </Label>
+			            <Button layoutX="358.0" layoutY="314.0" mnemonicParsing="false" onAction="#handleProduceHelloWords" text="自动生成">
+			               <font>
+			                  <Font name="System Bold" size="12.0" />
+			               </font>
+			            </Button>
+			         </children>
+			      </HBox>
+			      <TextArea fx:id="helloWords" layoutX="16.0" layoutY="356.0" prefHeight="200.0" prefWidth="529.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="355.0" />
+			      <Button layoutX="217.0" layoutY="586.0" mnemonicParsing="false" onAction="#handleSayHello" text="添加到执行任务列表" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="585.0">
+			         <font>
+			            <Font name="System Bold" size="14.0" />
+			         </font>
+			      </Button>
+	        	</children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

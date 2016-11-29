@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+
+<AnchorPane fx:id="bulkPane" fx:controller="com.xlingmao.controller.BulkOperateController"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <FlowPane fx:id="buttonFlowPane" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="打开微信" fx:id="openWechat" />
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="打开QQ" fx:id="openQQ"/>
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="关闭手机屏幕" fx:id="closeScreen"/>
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="打开手机屏幕" fx:id="wakeScreen"/>
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="重启手机" fx:id="reboot" />
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="返回主页" fx:id="goBackHome"/>
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="手机加速" fx:id="speedUp" />
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="150.0" text="更新手机内置功能" fx:id="updateAutoJar" />
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

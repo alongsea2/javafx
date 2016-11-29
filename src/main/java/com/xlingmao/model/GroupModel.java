@@ -15,7 +15,6 @@ public class GroupModel {
     private final StringProperty groupName;
     private final List<GroupTreeModel> groupTreeModel;
 
-
     public GroupModel(int id, String groupName, List<GroupTreeModel> groupTreeModel) {
         this.id = new SimpleIntegerProperty(id);
         this.groupName = new SimpleStringProperty(groupName);

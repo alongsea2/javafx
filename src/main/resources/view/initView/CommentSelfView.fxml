@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="670.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xlingmao.controller.CommentSelfViewController">
+   <children>
+      <SplitPane layoutX="434.0" layoutY="292.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Text layoutX="50.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="对自己朋友圈第一条内容进行评论：" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextArea fx:id="comment" layoutX="14.0" layoutY="193.0" prefHeight="107.0" prefWidth="461.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="45.0" />
+                  <Button layoutX="15.0" layoutY="188.0" mnemonicParsing="false" onAction="#hadleCommentSelf" prefHeight="29.0" prefWidth="466.0" text="添加到执行任务列表" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="185.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

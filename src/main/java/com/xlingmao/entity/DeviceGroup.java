@@ -15,9 +15,25 @@ public class DeviceGroup {
     private String deviceName;
     @DatabaseField(columnName = "GROUP_ID")
     private int groupId;
+    @DatabaseField(columnName = "MAPPING_NAME")
+    private String mappingName;
+    @DatabaseField(columnName = "PORT")
+    private int port;
 
-    public DeviceGroup() {
+    public int getPort() {
+        return port;
+    }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getMappingName() {
+        return mappingName;
+    }
+
+    public void setMappingName(String mappingName) {
+        this.mappingName = mappingName;
     }
 
     public int getGroupId() {

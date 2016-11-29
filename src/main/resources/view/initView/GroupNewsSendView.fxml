@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="670.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xlingmao.controller.GroupNewsSendViewController">
+   <children>
+      <SplitPane layoutX="259.0" layoutY="240.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <HBox layoutX="29.0" layoutY="18.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0">
+                     <children>
+                        <Label layoutX="29.0" layoutY="22.0" text="每次间隔" />
+                        <TextField fx:id="sleepTimeStart" layoutX="60.0" layoutY="26.0" prefHeight="23.0" prefWidth="31.0" text="2" />
+                        <Label layoutX="104.0" layoutY="22.0" text="到" />
+                        <TextField fx:id="sleepTimeEnd" layoutX="135.0" layoutY="18.0" prefHeight="23.0" prefWidth="31.0" text="5" />
+                        <Label layoutX="171.0" layoutY="22.0" text="秒" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="14.0" layoutY="57.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="55.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="57.0" text="发送方式：" />
+                        <RadioButton fx:id="signleSend" layoutX="80.0" layoutY="57.0" mnemonicParsing="false" selected="true" text="单个发送">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="sendGroup" />
+                           </toggleGroup></RadioButton>
+                        <RadioButton fx:id="groupHelpSend" layoutX="189.0" layoutY="57.0" mnemonicParsing="false" selected="true" text="群发助手" toggleGroup="$sendGroup">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></RadioButton>
+                        <RadioButton fx:id="groupTeamSend" layoutX="300.0" layoutY="57.0" mnemonicParsing="false" text="群聊组群发" toggleGroup="$sendGroup">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></RadioButton>
+                        <RadioButton fx:id="designatedTabSend" layoutX="403.0" layoutY="57.0" mnemonicParsing="false" text="指定标签发消息" toggleGroup="$sendGroup">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></RadioButton>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="14.0" layoutY="88.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="90.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="92.0" text="群组或者标签名称：" />
+                        <TextField fx:id="groupTeamName" layoutX="74.0" layoutY="88.0" />
+                        <Label layoutX="268.0" layoutY="92.0" text="注：群聊组群发时未指定群名称将对所有群聊组发送信息">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="14.0" layoutY="128.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="130.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="132.0" text="单次群发数量：" />
+                        <TextField fx:id="sendNum" layoutX="109.0" layoutY="128.0" prefHeight="23.0" prefWidth="69.0" text="200" />
+                        <Label layoutX="223.0" layoutY="132.0" text="针对群发助手200人的限制，可设定1-200之间的数字" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="14.0" layoutY="168.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="170.0">
+                     <children>
+                        <CheckBox layoutX="14.0" layoutY="168.0" mnemonicParsing="false" text="从上次结束的位置开始发送" />
+                        <CheckBox fx:id="isLoopSend" layoutX="233.0" layoutY="168.0" mnemonicParsing="false" text="循环发送（群发助手有效）" />
+                     </children>
+                  </HBox>
+                  <SplitPane dividerPositions="0.29797979797979796" layoutX="14.0" layoutY="220.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <TextArea fx:id="contentTextArea" layoutX="10.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
+                              <RadioButton fx:id="contentText" layoutX="16.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="消息内容：（建议500字左右）" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="contentGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <SplitPane dividerPositions="0.5203094777562862" layoutX="116.0" layoutY="102.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                       <children>
+                                          <HBox layoutX="26.0" layoutY="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                             <children>
+                                                <RadioButton fx:id="contentPic" mnemonicParsing="false" text="需要发送的图片" toggleGroup="$contentGroup">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </RadioButton>
+                                                <Button layoutX="118.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleImportImage" text="选择本地图片">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font></Button>
+                                             </children>
+                                          </HBox>
+                                          <ImageView fx:id="selectedImage" fitHeight="150.0" fitWidth="200.0" layoutX="33.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="100.0" />
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="349.0">
+                                       <children>
+                                          <Label layoutX="40.0" layoutY="44.0" text="指定发送收藏序号：" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
+                                          <TextField fx:id="collectionNum" layoutX="40.0" layoutY="67.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="65.0" />
+                                          <RadioButton fx:id="groupSendCollection" layoutX="25.0" layoutY="14.0" mnemonicParsing="false" text="群发收藏记录" toggleGroup="$contentGroup" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <RadioButton fx:id="pushBusinessCard" layoutX="30.0" layoutY="127.0" mnemonicParsing="false" text="推送名片：" toggleGroup="$contentGroup" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <Label layoutX="41.0" layoutY="153.0" text="输入微信好友名称或公众号名称：" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="155.0" />
+                                          <TextField fx:id="friendsOrGzhName" layoutX="42.0" layoutY="182.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="175.0" />
+                                          <RadioButton layoutX="40.0" layoutY="205.0" mnemonicParsing="false" text="好友名片" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="205.0">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="businessCardGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="gzhBusinessCard" layoutX="139.0" layoutY="205.0" mnemonicParsing="false" selected="true" text="公众号名片" toggleGroup="$businessCardGroup" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="205.0">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <Label layoutX="9.0" layoutY="267.0" text="注：推送的公众号必须是自己关注的公众号" />
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+                  <Button layoutX="305.0" layoutY="631.0" mnemonicParsing="false" onAction="#handleGroupNewsSend" text="添加到执行任务列表" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="600.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

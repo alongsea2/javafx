@@ -21,8 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * adb连接安卓
@@ -30,6 +30,9 @@ import java.util.List;
  * thanks to https://github.com/adakoda/android-screen-monitor
  * */
 public class ADB {
+	
+	private static Object lock = new Object();
+	
     private static final int DEFAULT_WIDTH = 320;
     private static final int DEFAULT_HEIGHT = 480;
 
@@ -60,7 +63,7 @@ public class ADB {
 	
 	public static ADB getInstance(){
 		if(self == null){
-			synchronized (ADB.class) {
+			synchronized (lock) {
 				if(self ==null){
 					self = new ADB();
 				}
@@ -151,13 +154,19 @@ public class ADB {
         RawImage rawImage = null;
         if (success) {
             try {
-                tmpRawImage = mDevice.getScreenshot();
-
+                //long bs = System.currentTimeMillis();
+                tmpRawImage = mDevice.getScreenshot(5, TimeUnit.SECONDS);
+                //System.out.println(System.currentTimeMillis() - bs);
                 if (tmpRawImage == null) {
                     success = false;
                 } else {
                     if (debug == false) {
                         rawImage = tmpRawImage;
+                        rawImage.bpp = 32;
+                        rawImage.size = tmpRawImage.width
+                                * tmpRawImage.height * 4;
+                        rawImage.width = tmpRawImage.width;
+                        rawImage.height = tmpRawImage.height;
                     } else {
                         rawImage = new RawImage();
                         rawImage.version = 1;
@@ -249,6 +258,7 @@ public class ADB {
             final int offset2;
             final int offset3;
 
+
             if (rawImage.bpp == 16) {
                 offset0 = 0;
                 offset1 = 1;
@@ -334,9 +344,9 @@ public class ADB {
                         }
                     }
                 }
+
             }
         }
-
         return fbImage;
     }
 

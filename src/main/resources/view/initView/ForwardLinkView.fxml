@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="670.0" prefWidth="758.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xlingmao.controller.ForwardLinkViewController">
+   <children>
+      <SplitPane layoutX="434.0" layoutY="292.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label layoutX="56.0" layoutY="40.0" text="转发网址：" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="link" layoutX="50.0" layoutY="80.0" prefHeight="23.0" prefWidth="460.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="80.0" />
+                  <Text layoutX="50.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="这一刻想说的话：" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="160.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextArea fx:id="say" layoutX="14.0" layoutY="193.0" prefHeight="200.0" prefWidth="460.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="193.0" />
+                  <Button layoutX="11.0" layoutY="441.0" mnemonicParsing="false" onAction="#handleForwardLink" prefHeight="29.0" prefWidth="460.0" text="添加到执行任务列表" AnchorPane.topAnchor="440.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="486.0" layoutY="80.0" mnemonicParsing="false" onAction="#handleShortUrl" text="缩短网址" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="80.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

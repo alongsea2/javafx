@@ -5,9 +5,15 @@ package com.xlingmao.common;
  */
 public interface AppConfig {
 
-    String CONFIG_IS_CONTROL_ALL = "config.is.control.all";
+    int DEFAULT_GROUP_ID = 1;
 
-    String STATUS_YES = "Y";
+    String JAR_PATH = "xlm.ac.wx.autocase.";
 
-    String STATUS_NO = "N";
+    String ADB_SHELL_PREFIX = "adb -s %s shell ";
+    
+    String AUTO_JAR_LOCATION = "/software/auto.jar";
+
+    String CONNECT_OK = "已连接";
+
+    String CONNECT_NO = "未连接";
 }
