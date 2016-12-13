@@ -31,8 +31,8 @@ public class GroupService {
             preConfig = groupService.queryBuilder().prepare();
             list = groupService.query(preConfig);
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"请开启数据库").showAndWait().ifPresent(buttonType -> System.exit(0));
-            e.printStackTrace();
+//            new Alert(Alert.AlertType.ERROR,"请开启数据库").showAndWait().ifPresent(buttonType -> System.exit(0));
+//            e.printStackTrace();
         }
         return list;
     }

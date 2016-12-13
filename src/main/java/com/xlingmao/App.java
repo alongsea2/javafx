@@ -1,7 +1,6 @@
 package com.xlingmao;
 
 
-import com.xlingmao.common.LayoutId;
 import com.xlingmao.service.ScreenMonitorService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -38,9 +37,8 @@ public class App extends Application {
 
         //检测线程
         ScreenMonitorService smService = new ScreenMonitorService(flowPane,label);
-        smService.setPeriod(Duration.millis(1000));
+        smService.setPeriod(Duration.millis(2000));
         smService.start();
-
     }
 
     private Node findById(String id, Pane layout){
@@ -81,7 +79,7 @@ public class App extends Application {
         loader.setLocation(App.class.getResource("/view/initView/RightConsoleLayout.fxml"));
         try {
             AnchorPane anchorPane = loader.load();
-            label = (Label) anchorPane.lookup("#" + LayoutId.DEVICE_NUM_LABEL);
+            label = (Label) anchorPane.lookup("#allDevices");
             rootLayout.setRight(anchorPane);
         } catch (IOException e) {
             logger.error("=====" + e);

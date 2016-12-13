@@ -59,9 +59,9 @@ public class RightConsoleController{
 
     public void controlAll(){
         if(allControl.isSelected()){
-
+            allControl.setSelected(true);
         }else {
-
+            allControl.setSelected(false);
         }
     }
 
@@ -84,15 +84,15 @@ public class RightConsoleController{
     }
 
     public void initialize(){
-        buildGroupTree();
-        GroupCheckService gcs = new GroupCheckService(this,deviceGroupService);
-        gcs.setPeriod(Duration.seconds(12));
-        gcs.start();
+       // buildGroupTree();
+//        GroupCheckService gcs = new GroupCheckService(this,deviceGroupService);
+//        gcs.setPeriod(Duration.seconds(12));
+//        gcs.start();
     }
 
     public void refreshTreeGroup(){
-        groupTree.getPanes().clear();
-        buildGroupTree();
+//        groupTree.getPanes().clear();
+//        buildGroupTree();
     }
 
     private void buildGroupTree(){

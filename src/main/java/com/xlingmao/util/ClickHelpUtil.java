@@ -45,6 +45,16 @@ public class ClickHelpUtil {
         }
     }
 
+    public static void swipe(IDevice iDevice,double x, double y,double distX ,double distY,long delay){
+        try {
+            iDevice.executeShellCommand(shellCommand+ "swipe " + x + " " + y + " " + distX + " " + distY + " 200" , new CommandOutputCapture());
+            logger.info("swipe " + x + " " + y + " " + distX + " " + distY + " " + 100000);
+        } catch (Exception e) {
+            logger.error("===== " + e);
+        }
+    }
+
+
     public static void backHome(IDevice iDevice){
         try {
             iDevice.executeShellCommand(shellCommand + "keyevent 3",new CommandOutputCapture());

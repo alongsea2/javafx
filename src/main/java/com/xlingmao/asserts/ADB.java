@@ -85,7 +85,7 @@ public class ADB {
 		// A) If you lunch jar from terminal, set arguments to android sdk directory or $ANDROID_HOME environment variable.
 		//    java -jar ./jar/asm.jar $ANDROID_HOME
 		if (adbLocation == null) {
-			adbLocation = System.getenv("ANDROID_HOME");
+			//adbLocation = System.getenv("ANDROID_HOME");
 			// Here, adbLocation may be android sdk directory
 			if (adbLocation != null) {
 				adbLocation += File.separator + "platform-tools";
@@ -100,7 +100,7 @@ public class ADB {
 			if ((adbLocation != null) && (adbLocation.length() != 0)) {
 				adbLocation += File.separator + "adb";
 			} else {
-				adbLocation = "adb";
+				adbLocation = "/Users/alongsea2/Library/Android/sdk/platform-tools/adb";
 			}
 			System.out.println("adb path is " + adbLocation);
 			AndroidDebugBridge.init(false);

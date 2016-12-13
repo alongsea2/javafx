@@ -84,6 +84,10 @@ public class ScreenMonitorService extends ScheduledService{
         ScreenMonitorService.isConnectionAll = isConnectionAll;
     }
 
+    public static boolean isConnectionAll() {
+        return isConnectionAll;
+    }
+
     /* =========================== private function  =============================*/
     private void updateLabelDeviceNum(){
         Platform.runLater(() -> {
@@ -108,8 +112,8 @@ public class ScreenMonitorService extends ScheduledService{
                 if(!deviceSet.contains(s)){
                     ImageDeviceDto imageDto = imageMap.get(s);
                     imageDto.setOffLine(true);
-                    imageDto.getImageView().setImage(null);
                     imageDto.setSocket(null);
+                    imageDto.getImageView().setImage(null);
                     GroupCheckService.getExistDevice().remove(s);
                     freshFlag++;
                 }
@@ -122,9 +126,18 @@ public class ScreenMonitorService extends ScheduledService{
 
     private void removeAllDevice(ConcurrentHashMap<String,ImageDeviceDto> imageMap){
         Platform.runLater(() -> {
+            int freshFlag = 0;
             for (String key : imageMap.keySet()) {
-                imageMap.get(key).getImageView().setImage(null);
+                ImageDeviceDto imageDto = imageMap.get(key);
+                imageDto.setOffLine(true);
+                imageDto.setSocket(null);
+                imageDto.getImageView().setImage(null);
+                GroupCheckService.getExistDevice().remove(key);
+                freshFlag++;
                 //imageMap.clear();
+            }
+            if(freshFlag > 0){
+                GroupCheckService.setIsNeedFresh(true);
             }
         });
         //logger.info("===== idd:" + idd + "===== del : " + key);

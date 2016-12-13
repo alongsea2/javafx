@@ -47,6 +47,8 @@ public class DeviceSocketThread implements Runnable{
 
     private FlowPane flowPane;
 
+    private AnchorPane anchorPane;
+
     private int screenWidth = PropertiesUtil.getValueForInt("device.screen.width");
 
     private int screenHeight = PropertiesUtil.getValueForInt("device.screen.height");
@@ -62,6 +64,11 @@ public class DeviceSocketThread implements Runnable{
     public DeviceSocketThread(IDevice device,FlowPane flowPane) {
         this.flowPane = flowPane;
         this.device = device;
+        try {
+            this.anchorPane = new FXMLLoader(DeviceSocketThread.class.getResource("/view/initView/DeviceSmallButtonLayout.fxml")).load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -69,23 +76,22 @@ public class DeviceSocketThread implements Runnable{
         ImageDeviceDto imageInstance = imageMap.get(device.getSerialNumber());
         if(imageInstance == null){
             ImageDeviceDto imageDeviceDto = new ImageDeviceDto();
-            DeviceGroup deviceGroup = deviceGroupService.selectDeviceByName(device.getSerialNumber());
+            DeviceGroup deviceGroup = null;//deviceGroupService.selectDeviceByName(device.getSerialNumber());
             // TODO: 2016/11/29 唤起service 服务
             //连接启动的service
             try {
                 //主页面对象
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(DeviceSocketThread.class.getResource("/view/initView/DeviceSmallButtonLayout.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
                 ObservableList<Node> anchorPaneChildren = anchorPane.getChildren();
-                Socket socket = connectSocket(deviceGroup.getPort());
+                Platform.runLater(() -> flowPane.getChildren().add(anchorPane));
+                Socket socket = connectSocket(53517);
                 //图片节点
                 ImageView imageView = (ImageView) NodeUtil.findById(anchorPaneChildren,LayoutId.DEVICE_IMAGE_VIEW);
 
                 imageDeviceDto.setSocket(socket);
                 imageDeviceDto.setDevice(device);
-                imageDeviceDto.setPort(deviceGroup.getPort());
+                imageDeviceDto.setPort(53517);
                 imageDeviceDto.setImageView(imageView);
+                imageMap.put(device.getSerialNumber(),imageDeviceDto);
 
                 //头部bar
                 HBox headBar = (HBox) NodeUtil.findById(anchorPaneChildren,LayoutId.HEAD_BAR);
@@ -94,7 +100,7 @@ public class DeviceSocketThread implements Runnable{
                 //左边设置名称
                 Label leftLabel = (Label) NodeUtil.findById(headBarChildren, LayoutId.HEAD_LEFT_LABEL);
                 Platform.runLater(()->{
-                    leftLabel.setText(deviceGroup.getMappingName() == null ? device.getSerialNumber() : deviceGroup.getMappingName() );
+                    leftLabel.setText(deviceGroup == null || deviceGroup.getMappingName() == null ? device.getSerialNumber() : deviceGroup.getMappingName() );
                 });
 
 //                右边绑定关闭该实例
@@ -121,7 +127,7 @@ public class DeviceSocketThread implements Runnable{
                 imageDeviceDto.setDevice(device);
                 //存放包裹imageView的实例
                 anchorPane.setPrefHeight(imageView.getFitHeight() + 50);
-                imageMap.put(device.getSerialNumber(),imageDeviceDto);
+
 
                 //绑定drag事件
                 bindImageViewDragEvent(imageView);
@@ -129,11 +135,12 @@ public class DeviceSocketThread implements Runnable{
                 //绑定drag release 和 普通release事件
                 bindImageViewDragReleaseAndNormalReleaseEvent(imageView,device);
 
-                Platform.runLater(() -> flowPane.getChildren().add(anchorPane));
+
                 InputStream inputStream = null;
                 try {
                     inputStream = socket.getInputStream();
                     while (true){// TODO: 2016/11/29 flag 控制连接
+                        if(!ScreenMonitorService.isConnectionAll())continue;
                         //一次读的字节数
                         int fileLen = readInt(inputStream);
                         int readLength = fileLen;
@@ -167,11 +174,13 @@ public class DeviceSocketThread implements Runnable{
             }
         }else{
             try {
-                Socket socket = connectSocket(imageInstance.getPort());
+
+                Socket socket = imageInstance.getSocket()  == null ? connectSocket(53517) : imageInstance.getSocket();
                 InputStream inputStream = null;
                 try {
                     inputStream = socket.getInputStream();
                     while (true){// TODO: 2016/11/29 flag 控制连接
+                        if (!ScreenMonitorService.isConnectionAll())continue;
                         //一次读的字节数
                         int fileLen = readInt(inputStream);
                         int readLength = fileLen;
@@ -186,7 +195,9 @@ public class DeviceSocketThread implements Runnable{
                         }
                         ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());
                         BufferedImage image = ImageIO.read(bin);
+                        if (image == null) continue;
                         Image fxImage = SwingFXUtils.toFXImage(image,null);
+
                         imageInstance.getImageView().setImage(fxImage);
                         //作为简略的心跳信息返回
                         writeInt(socket.getOutputStream(),1);
@@ -196,11 +207,12 @@ public class DeviceSocketThread implements Runnable{
                     try {
                         //关闭连接
                         socket.close();
+                        imageInstance.setSocket(null);
                     } catch (IOException e1) {
                         logger.error("===== socket is closed" + e1);
                     }
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -221,10 +233,11 @@ public class DeviceSocketThread implements Runnable{
         int ch2 = in.read();
         int ch3 = in.read();
         int ch4 = in.read();
+        int re = ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
         if ((ch1 | ch2 | ch3 | ch4) < 0){
-            logger.info("===== read error");
+            re = 10240;
         }
-        return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
+        return re;
     }
 
     private static void writeInt(OutputStream out, int v) throws IOException {
@@ -245,21 +258,23 @@ public class DeviceSocketThread implements Runnable{
     private void bindAllBottomBarLabelClickEvent(ObservableList<Node> bottomBarChildren, IDevice re){
         //返回home功能
         //绑定回主界面方法
+
+        List<IDevice> iDevices = ScreenMonitorService.getDevices();
         bindBottomBarLabelClickEvent(bottomBarChildren, LayoutId.LABEL_BACK_HOME, event -> {
-            /*if(isAll){
+            if(ScreenMonitorService.isConnectionAll()){
                 ThreadPoolUtil.bulkRunFuncOperation(LayoutId.LABEL_BACK_HOME,iDevices);
-            }else{*/
-            ThreadPoolUtil.threadPoolRunFunc(LayoutId.LABEL_BACK_HOME,re);
-            //}
+            }else{
+                ThreadPoolUtil.threadPoolRunFunc(LayoutId.LABEL_BACK_HOME,re);
+            }
         });
         //找到指定device
         bindBottomBarLabelClickEvent(bottomBarChildren,LayoutId.FIND_DEVICE_BUTTON,event -> {
-           /* if(isAll){
+            if(ScreenMonitorService.isConnectionAll()){
                 ThreadPoolUtil.bulkRunFuncOperation(LayoutId.FIND_DEVICE_BUTTON,iDevices);
-            }else{*/
+            }else{
             ImageDeviceDto dto = imageMap.get(re.getSerialNumber());
             ThreadPoolUtil.threadPoolRunFunc(LayoutId.FIND_DEVICE_BUTTON,dto.getDevice());
-            //}
+            }
         });
     }
 
@@ -279,16 +294,17 @@ public class DeviceSocketThread implements Runnable{
         //设置点击事件
         //当拖曳的时候释放为拖曳
         //非拖曳状态为点击事件
+        List<IDevice> iDevices = ScreenMonitorService.getDevices();
         imageView.setOnMouseReleased(e -> {
             if(!eventFlag[0]){
                 Point point = new Point((int) e.getX(), (int) e.getY());
                 Point realPoint = ClickHelpUtil.getRealPoint(point);
                 try {
-                   /* if(isAll){
+                    if(ScreenMonitorService.isConnectionAll()){
                         ThreadPoolUtil.bulkClickOperation(realPoint.getX(),realPoint.getY(),iDevices);
-                    }else{*/
+                    }else{
                     ThreadPoolUtil.threadPollRunMouseEvent(realPoint.getX(),realPoint.getY(),iDevice);
-                    //}
+                    }
                 } catch (Exception ex) {
                     logger.error("=====" + ex);
                 }
@@ -297,11 +313,11 @@ public class DeviceSocketThread implements Runnable{
                 try {
                     Point point1 = new Point((int) e.getX(), (int) e.getY());
                     Point realPoint1 = ClickHelpUtil.getRealPoint(point1);
-                   /* if(isAll){
+                    if(ScreenMonitorService.isConnectionAll()){
                         ThreadPoolUtil.bulkSwipeOperation(realPoint1.getX(),realPoint1.getY(),tempX,tempY,iDevices);
-                    }else{*/
+                    }else{
                     ThreadPoolUtil.threadPollRunMouseEvent(realPoint1.getX(),realPoint1.getY(),tempX,tempY,iDevice);
-                    //}
+                    }
                     e.consume();
                     new Timer().schedule(new TimerTask() {
                         @Override
