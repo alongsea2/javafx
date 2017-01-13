@@ -17,62 +17,69 @@
     </properties>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-lang3</artifactId>-->
+            <!--<version>3.4</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.android.tools.ddms/ddmlib &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.android.tools.ddms</groupId>-->
+            <!--<artifactId>ddmlib</artifactId>-->
+            <!--<version>25.2.0</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/net.sf.jali/chimpchat &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>net.sf.jali</groupId>-->
+            <!--<artifactId>chimpchat</artifactId>-->
+            <!--<version>24.3</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.h2database/h2 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.h2database</groupId>-->
+            <!--<artifactId>h2</artifactId>-->
+            <!--<version>1.4.192</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/log4j/log4j &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>log4j</groupId>-->
+            <!--<artifactId>log4j</artifactId>-->
+            <!--<version>1.2.17</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.j256.ormlite</groupId>-->
+            <!--<artifactId>ormlite-core</artifactId>-->
+            <!--<version>5.0</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.j256.ormlite</groupId>-->
+            <!--<artifactId>ormlite-jdbc</artifactId>-->
+            <!--<version>5.0</version>-->
+        <!--</dependency>-->
+
+         <!--<dependency>-->
+				<!--<groupId>org.apache.httpcomponents</groupId>-->
+				<!--<artifactId>httpclient</artifactId>-->
+				<!--<version>4.5</version>-->
+		  <!--</dependency>-->
+		  <!---->
+		  <!--<dependency>-->
+			    <!--<groupId>com.alibaba</groupId>-->
+			    <!--<artifactId>fastjson</artifactId>-->
+			    <!--<version>1.2.21</version>-->
+		  <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.jfoenix/jfoenix -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.android.tools.ddms/ddmlib -->
-        <dependency>
-            <groupId>com.android.tools.ddms</groupId>
-            <artifactId>ddmlib</artifactId>
-            <version>25.2.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/net.sf.jali/chimpchat -->
-        <dependency>
-            <groupId>net.sf.jali</groupId>
-            <artifactId>chimpchat</artifactId>
-            <version>24.3</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.192</version>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-core -->
-        <dependency>
-            <groupId>com.j256.ormlite</groupId>
-            <artifactId>ormlite-core</artifactId>
-            <version>5.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-jdbc -->
-        <dependency>
-            <groupId>com.j256.ormlite</groupId>
-            <artifactId>ormlite-jdbc</artifactId>
-            <version>5.0</version>
-        </dependency>
-
-         <dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>4.5</version>
-		  </dependency>
-		  
-		  <dependency>
-			    <groupId>com.alibaba</groupId>
-			    <artifactId>fastjson</artifactId>
-			    <version>1.2.21</version>
-		  </dependency>
     </dependencies>
 
     <build>
