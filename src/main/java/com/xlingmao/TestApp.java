@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -36,9 +37,9 @@ public class TestApp extends Application {
         loader.setLocation(TestApp.class.getResource("/view/initView/RootLayoutBack.fxml"));
         BorderPane rootLayout = loader.load();
 
-        ImageView imageView = (ImageView) rootLayout.getLeft().lookup("#images");
+        Button imageView = (Button) rootLayout.getLeft().lookup("#images");
 
-        imageView.setImage(new Image("http://img.hb.aicdn.com/9b3d483d12f91d4d87cd0d30dd264257cd0929b519c14-F3ulHn_/fw/480"));
+        //imageView.setImage(new Image("http://img.hb.aicdn.com/9b3d483d12f91d4d87cd0d30dd264257cd0929b519c14-F3ulHn_/fw/480"));
         JFXDialog jfxDialog = new JFXDialog();
         JFXTextArea jfxTextArea = new JFXTextArea("fjsldkjfkl");
         jfxTextArea.setStyle("-fx-text-fill: #000000");
@@ -55,16 +56,15 @@ public class TestApp extends Application {
         jfxDialog.setPrefWidth(400);
         rootLayout.setRight(stackPane);
         jfxDialog.setOverlayClose(false);
+        ServiceUtil serviceUtil = new ServiceUtil();
         imageView.setOnMouseClicked(event -> {
-            jfxDialog.setTransitionType(JFXDialog.DialogTransition.LEFT);
-            jfxDialog.show();
-        });
-        jfxDialog.setOnDialogClosed(event -> {
-            System.out.println(1111);
+            //ThreadPoolUtil.getPoolA().execute(()->{
+                serviceUtil.runFunc();
+            //});
         });
 
-        JFXSpinner spinner = new JFXSpinner();
-        stackPane.getChildren().add(spinner);
+
+
 
         Scene scene = new Scene(rootLayout);
 

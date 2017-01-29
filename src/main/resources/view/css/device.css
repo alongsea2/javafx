@@ -1,3 +1,7 @@
 .device-img-view{
     -fx-border-color: #8F8F8F;
 }
+.device-img-view:pressed{
+    -fx-border-color: red;
+    -fx-background-color: blue;
+}
